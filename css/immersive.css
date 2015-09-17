@@ -1,0 +1,54 @@
+/*sytle the header*/
+header {
+  width: 100%;
+  position: relative;
+}
+
+.titles{
+  margin: auto;
+  text-align: center;
+}
+
+.status-left, .status-right{
+  position: absolute;
+  width: 120px;
+  height:24px;
+  border: dotted 1px grey;
+  overflow: hidden;
+}
+
+.status-left{
+  left:12px;
+}
+
+.status-right{
+  right:12px;
+}
+
+/*sytle the footer*/
+footer{
+  position: fixed;
+  bottom: 72px;
+  width: 100%;
+}
+
+.info-left{
+  position: absolute;
+  left: 12%;
+}
+
+.info-right{
+  position: absolute;
+  right: 12%;
+}
+
+.titles-item{
+  margin: auto;
+  text-align: center;
+}
+
+/*sytle the main body*/
+.container-3d {
+  width: 100%;
+  perspective: 1000;
+}

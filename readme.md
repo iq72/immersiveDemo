@@ -5,6 +5,7 @@ using html to build a 3d ui
 
 + html for the structure
   - status (HUD)
+    - float left, dotted border, and titles
   - 3D contents
   - detailed info (HUD)
   - titles (HUD)
