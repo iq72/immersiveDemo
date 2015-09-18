@@ -1,3 +1,13 @@
+/*background*/
+body {
+  background:linear-gradient(to bottom, #1b2242 0%, #252539 80%);
+  color: white;
+}
+
+h1{
+  text-align: center;
+}
+
 /*sytle the header*/
 header {
   width: 100%;
@@ -50,5 +60,53 @@ footer{
 /*sytle the main body*/
 .container-3d {
   width: 100%;
-  perspective: 1000;
+
+}
+
+.collections{
+float: left;
+transform-style: preserve-3d;
+perspective-origin: 50% -25%;
+perspective: 2000px;
+margin-top: 25%;
+
+}
+
+.left{
+margin-left: -180px;
+}
+
+.main{
+  margin-left: 10%;
+}
+
+.right{
+  margin-left: 10%;
+}
+
+.card{
+   width: 480px;
+   height: 270px;
+   background-color: rgb(166, 225, 241);
+   box-shadow: 0 45px 100px rgba(0, 0, 0, 0.4);
+}
+
+.layer-1{
+  transform: translate3d(0px, 0px, 100px);
+}
+
+.layer-2{
+  transform: translate3d(0px, -270px, -200px);
+}
+
+.layer-3{
+  transform: translate3d(0px, -540px, -300px);
+}
+
+.layer-4{
+  transform: translate3d(0px, -810px, -400px);
+}
+
+.layer-5{
+  transform: translate3d(0px, -1080px, -500px);
 }
