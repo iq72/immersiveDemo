@@ -5,6 +5,7 @@ body {
   width: 100%;
   height: 100%;
   overflow: hidden;
+  font-family: "Roboto", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
 }
 
 h1{
@@ -29,6 +30,7 @@ header {
   position: absolute;
   width: 240px;
   height:24px;
+  padding: 6px 6px 1px;
   border: dotted 1px grey;
   overflow: hidden;
   transform-style: flat;
