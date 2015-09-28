@@ -126,21 +126,42 @@ footer{
 }
 
 .layer-1{
-  transform: translate3d(0px, 0px, -500px);
-}
-
-.layer-2{
   transform: translate3d(0px, 0px, -400px);
 }
 
-.layer-3{
+.layer-2{
   transform: translate3d(0px, 0px, -300px);
 }
 
-.layer-4{
+.layer-3{
   transform: translate3d(0px, 0px, -200px);
 }
 
+.layer-4{
+  transform: translate3d(0px, 0px, -100px);
+}
+
 .layer-5{
+  transform: translate3d(0px, 0px, －50px);
+}
+
+/* focused cards style */
+.main .layer-1{
+  transform: translate3d(0px, 0px, -500px);
+}
+
+.main .layer-2{
+  transform: translate3d(0px, 0px, -400px);
+}
+
+.main .layer-3{
+  transform: translate3d(0px, 0px, -300px);
+}
+
+.main .layer-4{
+  transform: translate3d(0px, 0px, -200px);
+}
+
+.main .layer-5{
   transform: translate3d(0px, 0px, 100px);
 }
