@@ -1,30 +1,45 @@
 /*background*/
 body {
-  background:linear-gradient(to bottom, #1b2242 0%, #252539 80%);
+  background:rgb(57, 50, 69);
   color: white;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
 }
 
 h1{
   text-align: center;
+  font-size: 48px;
 }
 
 /*sytle the header*/
 header {
   width: 100%;
   position: relative;
+  padding-top: 3%;
+  transform-style: preserve-3d;
 }
 
 .titles{
-  margin: auto;
+  margin: 1em auto;
   text-align: center;
 }
 
 .status-left, .status-right{
   position: absolute;
-  width: 120px;
+  width: 240px;
   height:24px;
   border: dotted 1px grey;
   overflow: hidden;
+  transform-style: flat;
+}
+
+.status-left{
+  transform:matrix(1.00,0.30,0.00,1.00,0,0);
+}
+
+.status-right{
+  transform:matrix(1.00,-0.30,0.00,1.00,0,0);
 }
 
 .status-left{
@@ -42,13 +57,20 @@ footer{
   width: 100%;
 }
 
-.info-left{
+.info-left, .info-right{
   position: absolute;
+  width: 320px;
+  height: 90px;
+  overflow: hidden;
+  text-align: center;
+  /*background-color: rgba(104, 245, 203, 0.35);*/
+}
+
+.info-left{
   left: 12%;
 }
 
 .info-right{
-  position: absolute;
   right: 12%;
 }
 
@@ -57,56 +79,65 @@ footer{
   text-align: center;
 }
 
-/*sytle the main body*/
+/* sytle the main body */
 .container-3d {
+  position: absolute;
   width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  perspective-origin: 50% 25%;
+  perspective: 1000px;
 
 }
 
 .collections{
-float: left;
-transform-style: preserve-3d;
-perspective-origin: 50% -25%;
-perspective: 2000px;
-margin-top: 25%;
-
+  position: absolute;
+  transform-style: preserve-3d;
+  width: 480px;
+  height:270px;
+  margin-left: -240px;
+  margin-top: -135px;
+  top:15%;
 }
 
 .left{
-margin-left: -180px;
+ left: 0;
+ transform: rotateY(45deg);
 }
 
 .main{
-  margin-left: 10%;
+  left: 50%;
 }
 
 .right{
-  margin-left: 10%;
+  left: 100%;
+  transform: rotateY(-45deg);
 }
 
 .card{
    width: 480px;
    height: 270px;
+   position: absolute;
    background-color: rgb(166, 225, 241);
    box-shadow: 0 45px 100px rgba(0, 0, 0, 0.4);
 }
 
 .layer-1{
-  transform: translate3d(0px, 0px, 100px);
+  transform: translate3d(0px, -16px, -500px);
 }
 
 .layer-2{
-  transform: translate3d(0px, -270px, -200px);
+  transform: translate3d(0px, 8px, -400px);
 }
 
 .layer-3{
-  transform: translate3d(0px, -540px, -300px);
+  transform: translate3d(0px, 42px, -300px);
 }
 
 .layer-4{
-  transform: translate3d(0px, -810px, -400px);
+  transform: translate3d(0px, 72px, -200px);
 }
 
 .layer-5{
-  transform: translate3d(0px, -1080px, -500px);
+  transform: translate3d(0px, 150px, 100px);
 }
