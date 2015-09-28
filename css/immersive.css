@@ -106,7 +106,7 @@ footer{
             translate3d(0px, 240px, 0px);
 }
 
-.main{
+.center{
   left: 50%;
   transform: translate3d(0px, 240px, 0px);
 }
