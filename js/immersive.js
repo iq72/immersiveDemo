@@ -58,18 +58,17 @@ function onKeydown(e){
 function moveForward(timestamp) {
   loopStoped=false;
   // console.log("requestID is " + requestID);
-  velocity < 1 ? velocity+=0.1 : velocity = 1;
-  // velocity=0.1;
+  //  velocity < 1 ? velocity+=0.1 : velocity = 1;
+   velocity=0.3;
   if ( 0 === lastTime) {
-    // console.log("fist time \n timestamp is " + timestamp);
-    // firstTime
-    velocity=0.1;
+    // first loop, dont move; set velocity to 0
+    velocity=0;
   }else{
     // we got a interval
     interval=timestamp - lastTime;
     // console.log("time between two frame is " + interval);
 
-    var distance = velocity * interval;
+    var dz;
     var cards=document.querySelectorAll('.center .card');
 
     for (var i=0; i<cards.length; i++){
@@ -79,41 +78,50 @@ function moveForward(timestamp) {
       var st=window.getComputedStyle(card,null); //get computed style
       var transform=st.getPropertyValue("transform"); //get transform property
       var transformValue=transform.split('(')[1].split(')')[0].split(',');// get value, split
-      var scaleX=parseInt(transformValue[0]);
-      var scaleY=parseInt(transformValue[5]);
-      var scaleZ=parseInt(transformValue[10]);
-      var y=parseInt(transformValue[13]) / scaleY;
-      var z=parseInt(transformValue[14]) / scaleZ;// get z value in int
+      var scaleX, scaleY, scaleZ, y, z;
+      if(16 == transformValue.length){ // if 3d matrix
+        scaleX=parseInt(transformValue[0]);
+        scaleY=parseInt(transformValue[5]);
+        scaleZ=parseInt(transformValue[10]);
+        y=parseInt(transformValue[13]) / scaleY;
+        z=parseInt(transformValue[14]) / scaleZ;// get z value in int
+      }else { // 2d matrix
+        scaleX=scaleY=scaleZ=1;
+        y=z=0;
+      }
 
       // different cards with different speed
-    if(z < -200){ // if not the toppist card
-      console.log("NORMAL: \n"+"i= "+i +";    " + "velocity= " + velocity );
-      z = Math.round(z+distance);
+    if(z < -200){ // for cards in behind
+      dz = velocity * interval;
+      console.log("NORMAL: \n"+"i= "+i +";    " + "dz= " + dz );
+      z = Math.round(z+dz);
       card.style.transform="translate3d(0px, 0px, " + z +"px)";
-    }else if(-200 <= z && 100 > z){ // speed * 3 for the toppist card to makesure all cards arrive at same time
-      // distance = velocity * 3 * interval;
-      console.log("3X: \n"+"i= "+i +";    " + "velocity= " + velocity );
-      z=Math.round(z+(distance*3));
+    }else if(-200 <= z && 100 > z){ // speed * 3 for the second card to makesure all cards arrive at same time
+      dz = velocity * interval * 3;
+      console.log("3X: \n"+"i= "+i +";    " + "dz= " + dz );
+      
+      z=Math.round(z+dz);
       card.style.transform="translate3d(0px, 0px, " + z +"px)";
 
-    }else if (100 <= z && 150 > z) { // another speed and scale and opacity
-      console.log("1/2X: \n"+"i= "+i +";    " + "velocity= " + velocity );
-      // distance = velocity*interval/2;
+    }else if (100 <= z && 150 > z) { // speed * 1/2 for the first card
+      dz = velocity*interval/2;
+      console.log("1/2X: \n"+"i= "+i +";    " + "dz= " + dz );
 
-      // scaleX = scaleY += distance*0.2/50;
-      // scaleZ += distance*0.5/50;
-      z=Math.round(z+ (distance/2));
+      scaleX = scaleY += dz*0.2/50;
+      scaleZ += dz*0.5/50;
+      z=Math.round(z+ dz);
       // opacity
       var opacity=st.getPropertyValue("opacity");
       opacity=parseFloat(opacity);
-      opacity-=distance/50;
+      opacity-=dz/50;
       // set style
-      // card.style.opacity=opacity;
+      card.style.opacity=opacity;
       card.style.transform="translate3d(0px, 0px, " + z +"px) "+
                            "scale3d(" + scaleX +", "+scaleY+", "+scaleZ +")";
-    }else{
-    //  z=-600;
-      card.style.transform="translate3d(0px, 0px, -500px)";
+    }else{// resert the card to start point when reach end
+      dz = velocity*interval -500;
+      z =Math.round(z+dz);
+      card.style.transform="translate3d(0px, 0px, " + z +"px)";
       card.style.opacity=1;
 
     }
