@@ -176,5 +176,5 @@ footer{
 
 .main .layer-0{
   transform: translate3d(0px, 0px, -600px);
-  opacity: 0;
+  /*opacity: 0;*/
 }
