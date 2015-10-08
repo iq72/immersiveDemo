@@ -123,9 +123,12 @@ footer{
    position: absolute;
    background-color: rgb(166, 225, 241);
    box-shadow: 0 45px 100px rgba(0, 0, 0, 0.4);
-   /*transition-property:opacity transform;
-   transition-duration: 1s;
-   transition-timing-function: cubic-bezier(.42, 0, .58, 1);*/
+}
+
+.transition{
+  transition-property:opacity transform;
+  transition-duration: 0.3s;
+  transition-timing-function: ease-out;
 }
 
 .layer-1{

@@ -10,26 +10,59 @@ var lastEvent,
     velocity=0,
     lastTime=0,
     interval=0,
-    A=0.00005 ;
+    A=0.0005,
+    THREHOLD= 0.7;
 
 // reset to defualt
-function onKeyup(){
+function onKeyup(e){
   // console.log("keyup");
   velocity=0;
   lastTime = 0;
   interval = 0;
 
-  // stop the move loop
-  if(requestID){
-    // console.log(requestID);
-    window.cancelAnimationFrame(requestID);
-    requestID = undefined;
-    loopStoped=true;
-  }
+switch (e.keyCode) {
+  case 38:
+    var re = /layer-\d/;
+    //reposition
+    var cards=document.querySelectorAll('.center .card');
+    for(var i=0; i<cards.length; i++){
+      var card=cards[i];
+      // clear computed style
+      if(card.attributes&&card.attributes.style){
+        card.attributes.removeNamedItem("style");
+      }else {
+        console.log("NO STYLE: "+ card);
+      }
+      if(i<cards.length-1){
+      card.className = card.className.replace(re,"transition layer-"+(i+1));
+       //replace layer classes as order
+     }else{
+       card.className = card.className.replace(re,"transition layer-0");
+       document.querySelector(".center").insertBefore(card,cards[0]);
+     }
+    }
+
+    // stop the move loop
+    if(requestID){
+      // console.log(requestID);
+      window.cancelAnimationFrame(requestID);
+      requestID = undefined;
+      loopStoped=true;
+    }
+    break;
+  default:
+    break;
+}
+
+
 }
 
 function onKeydown(e){
   // console.log(e.keyCode);
+  var cards=document.querySelectorAll('.center .card');
+  for(var i=0; i<cards.length; i++){
+    cards[i].classList.remove("transition");
+  }
   switch (e.keyCode) {
     case 13:
       console.log("enter");
@@ -59,15 +92,15 @@ function onKeydown(e){
 function moveForward(timestamp) {
   loopStoped=false;
   // console.log("requestID is " + requestID);
-   velocity=0.3;
+  //  velocity=0.3;
   if ( 0 === lastTime) {
     // first loop, dont move; set velocity to 0
     velocity=0;
   }else{
     // we got a interval
-    interval=timestamp - lastTime;
+    interval = timestamp - lastTime;
     // console.log("time between two frame is " + interval);
-    // velocity < 1 ? velocity += A*interval : velocity = 1;
+    velocity < THREHOLD ? velocity += A*interval : velocity = THREHOLD;
 
     var cards=document.querySelectorAll('.center .card');
 
@@ -93,39 +126,42 @@ function moveForward(timestamp) {
       // different cards with different speed
       if(z < -200){ // for cards in behind
         dz = velocity * interval;
-        console.log("NORMAL: \n"+"i= "+i +";    " + "dz= " + dz );
+        // console.log("NORMAL: \n"+"i= "+i +";    " + "dz= " + dz );
         z = Math.round(z+dz);
         card.style.transform="translate3d(0px, 0px, " + z +"px)";
       }else if(-200 <= z && 100 > z){ // speed * 3 for the second card to makesure all cards arrive at same time
         dz = velocity * interval * 3;
-        console.log("3X: \n"+"i= "+i +";    " + "dz= " + dz );
+        // console.log("3X: \n"+"i= "+i +";    " + "dz= " + dz );
 
         z=Math.round(z+dz);
         card.style.transform="translate3d(0px, 0px, " + z +"px)";
 
       }else if (100 <= z && 225 > z) { // speed * 1/2 for the first card
         dz = velocity*interval*1.25;
-        console.log("1.25X: \n"+"i= "+i +";    " + "dz= " + dz );
+        // console.log("1.25X: \n"+"i= "+i +";    " + "dz= " + dz );
 
         scaleX = scaleY += dz*0.2/50;
         // scaleZ += dz*0.5/50;
         z=Math.round(z+ dz);
+        y=Math.round(z + (dz*50/125));
         // opacity
         var opacity=st.getPropertyValue("opacity");
         opacity=parseFloat(opacity);
         opacity-=dz/75;
         if(opacity < 0){
           opacity=0;
+          console.log("z position: "+ z);
         }
         // set style
         card.style.opacity=opacity;
-        card.style.transform="translate3d(0px, 0px, " + z +"px) "+
+        card.style.transform="translate3d(0px, "+ y +"px, " + z +"px) "+
                              "scale3d(" + scaleX +", "+scaleY+", "+scaleZ +")";
       }else{// resert the card to start point when reach end
         dz = velocity * interval;
         z =Math.round(dz-600);
         card.style.transform="translate3d(0px, 0px, " + z +"px)";
         card.style.opacity="1";
+        document.querySelector(".center").insertBefore(card,cards[0]);
 
       }
       if(i==0){
