@@ -170,11 +170,11 @@ footer{
 }
 
 .main .layer-6{
-  transform: scale3d(1.2,1.2,1.5) translate3d(0px, 50px, 150px);
+  transform: scale3d(1.2,1.2,1) translate3d(0px, 50px, 250px);
   opacity: 0;
 }
 
 .main .layer-0{
   transform: translate3d(0px, 0px, -600px);
-  /*opacity: 0;*/
+  opacity: 0;
 }
