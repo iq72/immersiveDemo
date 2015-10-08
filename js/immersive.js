@@ -11,7 +11,7 @@ var lastEvent,
     lastTime=0,
     interval=0,
     A=0.0005,
-    THREHOLD= 0.7;
+    THREHOLD= 0.5;
 
 // reset to defualt
 function onKeyup(e){
@@ -91,7 +91,7 @@ function onKeydown(e){
 
 function moveForward(timestamp) {
   loopStoped=false;
-  // console.log("requestID is " + requestID);
+  console.log("requestID is " + requestID );
   //  velocity=0.3;
   if ( 0 === lastTime) {
     // first loop, dont move; set velocity to 0
@@ -101,17 +101,23 @@ function moveForward(timestamp) {
     interval = timestamp - lastTime;
     // console.log("time between two frame is " + interval);
     velocity < THREHOLD ? velocity += A*interval : velocity = THREHOLD;
+    console.log("velocity is"  + velocity);
 
     var cards=document.querySelectorAll('.center .card');
 
     for (var i=0; i<cards.length; i++){
-      var dz;
+      var dz=0;
       var card=cards[i];
       // get card's z value
       var st=window.getComputedStyle(card,null); //get computed style
       var transform=st.getPropertyValue("transform"); //get transform property
       var transformValue=transform.split('(')[1].split(')')[0].split(',');// get value, split
       var scaleX, scaleY, scaleZ, y, z;
+
+      // if(5==i&&card.classList.contains("layer-0")){
+      //   console.log("one circle");
+      // }
+
       if(16 == transformValue.length){ // if 3d matrix
         scaleX=parseFloat(transformValue[0]);
         scaleY=parseFloat(transformValue[5]);
@@ -147,9 +153,8 @@ function moveForward(timestamp) {
         // opacity
         var opacity=st.getPropertyValue("opacity");
         opacity=parseFloat(opacity);
-        opacity-=dz/75;
-        if(opacity < 0){
-          opacity=0;
+        opacity-=dz/80;
+        if(opacity == 0){
           console.log("z position: "+ z);
         }
         // set style
