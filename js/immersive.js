@@ -23,7 +23,7 @@ function onKeyup(e){
 switch (e.keyCode) {
   case 38:
     var re = /layer-\d/;
-    //reposition
+    //reposite cards to preset slots
     var cards=document.querySelectorAll('.center .card');
     for(var i=0; i<cards.length; i++){
       var card=cards[i];
@@ -31,7 +31,7 @@ switch (e.keyCode) {
       if(card.attributes&&card.attributes.style){
         card.attributes.removeNamedItem("style");
       }else {
-        console.log("NO STYLE: "+ card);
+        // console.log("NO STYLE: "+ card);
       }
       if(i<cards.length-1){
       card.className = card.className.replace(re,"transition layer-"+(i+1));
@@ -91,7 +91,7 @@ function onKeydown(e){
 
 function moveForward(timestamp) {
   loopStoped=false;
-  console.log("requestID is " + requestID );
+  // console.log("requestID is " + requestID );
   //  velocity=0.3;
   if ( 0 === lastTime) {
     // first loop, dont move; set velocity to 0
@@ -101,7 +101,7 @@ function moveForward(timestamp) {
     interval = timestamp - lastTime;
     // console.log("time between two frame is " + interval);
     velocity < THREHOLD ? velocity += A*interval : velocity = THREHOLD;
-    console.log("velocity is"  + velocity);
+    // console.log("velocity is"  + velocity);
 
     var cards=document.querySelectorAll('.center .card');
 
@@ -122,8 +122,8 @@ function moveForward(timestamp) {
         scaleX=parseFloat(transformValue[0]);
         scaleY=parseFloat(transformValue[5]);
         scaleZ=parseFloat(transformValue[10]);
-        y=parseInt(transformValue[13]) / scaleY;
-        z=parseInt(transformValue[14]) / scaleZ;// get z value in int
+        y=parseInt(transformValue[13]);
+        z=parseInt(transformValue[14]);// get z value in int
       }else { // 2d matrix
         scaleX=scaleY=scaleZ=1;
         y=z=0;
@@ -142,32 +142,37 @@ function moveForward(timestamp) {
         z=Math.round(z+dz);
         card.style.transform="translate3d(0px, 0px, " + z +"px)";
 
-      }else if (100 <= z && 225 > z) { // speed * 1/2 for the first card
-        dz = velocity*interval*1.25;
+      }else if (100 <= z && 250 > z) { // speed * 1.5 for the first card
+        dz = velocity*interval*1.5;
         // console.log("1.25X: \n"+"i= "+i +";    " + "dz= " + dz );
 
-        scaleX = scaleY += dz*0.2/50;
+        scaleX = scaleY += dz*0.2/150;
         // scaleZ += dz*0.5/50;
         z=Math.round(z+ dz);
-        y=Math.round(z + (dz*50/125));
+        y=Math.round(z + (dz*50/150));
         // opacity
         var opacity=st.getPropertyValue("opacity");
         opacity=parseFloat(opacity);
         opacity-=dz/80;
-        if(opacity == 0){
+        if(opacity <= 0){
           console.log("z position: "+ z);
         }
         // set style
         card.style.opacity=opacity;
         card.style.transform="translate3d(0px, "+ y +"px, " + z +"px) "+
                              "scale3d(" + scaleX +", "+scaleY+", "+scaleZ +")";
+      }else if ( 250<=z && 350>z ) {
+        dz=velocity*interval;
+        z += Math.round(dz);
+        card.style.transform="translate3d(0px, "+ y +"px, " + z +"px) "+
+                             "scale3d(" + scaleX +", "+scaleY+", "+scaleZ +")";
+        console.log("BEFORE TRANSFORM: "+ transformValue);
       }else{// resert the card to start point when reach end
         dz = velocity * interval;
         z =Math.round(dz-600);
         card.style.transform="translate3d(0px, 0px, " + z +"px)";
         card.style.opacity="1";
         document.querySelector(".center").insertBefore(card,cards[0]);
-
       }
       if(i==0){
         // console.log(card.style.transform);
@@ -183,7 +188,7 @@ function naviForward() {
     var cards=document.querySelectorAll('.center .card');
     // console.log(cards);
     for (var i=0; i<cards.length; i++){
-      console.log("change started");
+      // console.log("change started");
       var card=cards[i];
       var curClass="layer-"+i ,
           newClass;
