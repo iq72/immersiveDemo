@@ -8,15 +8,17 @@ var lastEvent,
     requestID,
     loopStoped=true,
     velocity=0,
+    startTime=0,
     lastTime=0,
     interval=0,
-    A=0.0005,
-    THREHOLD= 0.5;
+    A=0.0002,
+    THREHOLD= 20;
 
 // reset to defualt
 function onKeyup(e){
   // console.log("keyup");
   velocity=0;
+  startTime = 0;
   lastTime = 0;
   interval = 0;
 
@@ -93,20 +95,30 @@ function moveForward(timestamp) {
   loopStoped=false;
   // console.log("requestID is " + requestID );
   //  velocity=0.3;
-  if ( 0 === lastTime) {
+  if ( 0 === startTime) {
     // first loop, dont move; set velocity to 0
     velocity=0;
+    startTime=timestamp
   }else{
     // we got a interval
-    interval = timestamp - lastTime;
+    interval = timestamp - startTime;
+    var percentage;
     // console.log("time between two frame is " + interval);
-    velocity < THREHOLD ? velocity += A*interval : velocity = THREHOLD;
+    if(interval<THREHOLD){
+      // p=1/2 * A * t * t
+      percentage = Math.pow(interval, 2) * A / 2 ;
+    }else{
+      //linear after
+      percentage = Math.pow(THREHOLD, 2) * (A / 2) + (A*THREHOLD*(interval - THREHOLD));
+      percentage = percentage % 1;
+    }
     // console.log("velocity is"  + velocity);
 
     var cards=document.querySelectorAll('.center .card');
 
     for (var i=0; i<cards.length; i++){
-      var dz=0;
+      // var dz=0;
+      var p=i+percentage;
       var card=cards[i];
       // get card's z value
       var st=window.getComputedStyle(card,null); //get computed style
@@ -130,48 +142,47 @@ function moveForward(timestamp) {
       }
 
       // different cards with different speed
-      if(z < -200){ // for cards in behind
-        dz = velocity * interval;
+      if(p < 4){ // for cards in behind
         // console.log("NORMAL: \n"+"i= "+i +";    " + "dz= " + dz );
-        z = Math.round(z+dz);
+        z = Math.round((p * 100) - 600);
+        card.style.opacity="1";
         card.style.transform="translate3d(0px, 0px, " + z +"px)";
-      }else if(-200 <= z && 100 > z){ // speed * 3 for the second card to makesure all cards arrive at same time
-        dz = velocity * interval * 3;
+      }else if(4 <= p && 5 > p){ // speed * 3 for the second card to makesure all cards arrive at same time
         // console.log("3X: \n"+"i= "+i +";    " + "dz= " + dz );
 
-        z=Math.round(z+dz);
+        z=Math.round((p-4)*300 - 200);
+        card.style.opacity="1";
         card.style.transform="translate3d(0px, 0px, " + z +"px)";
 
-      }else if (100 <= z && 250 > z) { // speed * 1.5 for the first card
-        dz = velocity*interval*1.5;
+      }else if (5 <= p && 6 > p) { // speed * 1.5 for the first card
         // console.log("1.25X: \n"+"i= "+i +";    " + "dz= " + dz );
 
-        scaleX = scaleY += dz*0.2/150;
+        scaleX = scaleY = (p-5)*0.2 + 1;
         // scaleZ += dz*0.5/50;
-        z=Math.round(z+ dz);
-        y=Math.round(z + (dz*50/150));
+        z=Math.round((p-5)*150 + 100);
+        y=Math.round((p-5)*260);
         // opacity
         var opacity=st.getPropertyValue("opacity");
         opacity=parseFloat(opacity);
-        opacity-=dz/80;
-        if(opacity <= 0){
-          console.log("z position: "+ z);
-        }
+        opacity=1-((p-5)*1.5);
+        // if(opacity <= 0){
+        //   console.log("z position: "+ z);
+        // }
         // set style
         card.style.opacity=opacity;
         card.style.transform="translate3d(0px, "+ y +"px, " + z +"px) "+
                              "scale3d(" + scaleX +", "+scaleY+", "+scaleZ +")";
-      }else if ( 250<=z && 350>z ) {
-        dz=velocity*interval;
-        z += Math.round(dz);
+      }else {
+        z = Math.round((p-6)*100 + 250);
+        card.style.opacity=0;
         card.style.transform="translate3d(0px, "+ y +"px, " + z +"px) "+
                              "scale3d(" + scaleX +", "+scaleY+", "+scaleZ +")";
-        console.log("BEFORE TRANSFORM: "+ transformValue);
-      }else{// resert the card to start point when reach end
-        dz = velocity * interval;
-        z =Math.round(dz-600);
-        card.style.transform="translate3d(0px, 0px, " + z +"px)";
-        card.style.opacity="1";
+        // console.log("BEFORE TRANSFORM: "+ transformValue);
+      }
+      if(350 <= z){// resert the card to start point when reach end
+        // z =Math.round((p*100)-600);
+        // card.style.transform="translate3d(0px, 0px, " + z +"px)";
+        // card.style.opacity="1";
         document.querySelector(".center").insertBefore(card,cards[0]);
       }
       if(i==0){
@@ -179,7 +190,7 @@ function moveForward(timestamp) {
       }
     }
   }
-  lastTime = timestamp;
+  // lastTime = timestamp;
   requestID = window.requestAnimationFrame(moveForward);
 }
 
