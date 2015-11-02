@@ -34,13 +34,29 @@ function onKeyup(e){
       repositeCards("backward");
       stopLoop();
       break;
-    default:
-      break;
 
     case 37:
       console.log("keyup: LEFT"+e.keyCode);
-      document.querySelector('.center').classList.toggle("main");
+      if(document.querySelector('.center')){
+        document.querySelector('.center').className = document.querySelector('.center').className.replace("center main","left");
+      }
+      if(document.querySelector('.right')) {
+        document.querySelector('.right').className = document.querySelector('.right').className.replace("right","center main");
+      }
     break;
+
+    case 39:
+      console.log("keyup: RIGHT" + e.keyCode);
+      if(document.querySelector('.center')){
+        document.querySelector('.center').className = document.querySelector('.center').className.replace("center main","right");
+      }
+      if(document.querySelector('.left')) {
+        document.querySelector('.left').className = document.querySelector('.left').className.replace("left","center main");
+      }
+    break;
+
+    default:
+      break;
     }
 
 }
