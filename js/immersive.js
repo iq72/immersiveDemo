@@ -13,7 +13,7 @@ var lastEvent,
     interval=0,
     A=0.0002,
     THREHOLD= 20,
-    rotateCount=0;
+    rotate=0;
 
 
 // reset to defualt
@@ -39,23 +39,24 @@ function onKeyup(e){
 
     case 37:
       console.log("keyup: LEFT"+e.keyCode);
+      stopLoop();
       // if(document.querySelector('.center')){
       //   document.querySelector('.center').className = document.querySelector('.center').className.replace("center main","left");
       // }
       // if(document.querySelector('.right')) {
       //   document.querySelector('.right').className = document.querySelector('.right').className.replace("right","center main");
       // }
-      rotateCount++;
-      var deg = 45 * rotateCount;
-      document.querySelector('.container-3d').style.transform="scale3d(2.2,2.2,2.2) rotateY("+deg+"deg)";
+      // rotateCount++;
+      // var deg = 45 * rotateCount;
+      // document.querySelector('.container-3d').style.transform="scale3d(2.2,2.2,2.2) rotateY("+deg+"deg)";
 
     break;
 
     case 39:
       console.log("keyup: RIGHT" + e.keyCode);
-      rotateCount--;
-      var deg = 45 * rotateCount;
-      document.querySelector('.container-3d').style.transform="scale3d(2.2,2.2,2.2) rotateY("+deg+"deg)";
+      // rotateCount--;
+      // var deg = 45 * rotateCount;
+      // document.querySelector('.container-3d').style.transform="scale3d(2.2,2.2,2.2) rotateY("+deg+"deg)";
       // if(document.querySelector('.center')){
       //   document.querySelector('.center').className = document.querySelector('.center').className.replace("center main","right");
       // }
@@ -130,6 +131,9 @@ function onKeydown(e){
       break;
     case 37:
       console.log("arrowLeft");
+      if(loopStoped){
+          requestID = window.requestAnimationFrame(rotateLeft);
+      }
       break;
     case 39:
       console.log("arrowRight");
@@ -157,6 +161,7 @@ function getPercentage(interval){
   }else{
     //linear after
     percentage = Math.pow(THREHOLD, 2) * (A / 2) + (A*THREHOLD*(interval - THREHOLD));
+    // console.log("LINEAR");
   }
   //just need the percentage
   percentage = percentage % 1;
@@ -282,6 +287,31 @@ function moveBackward(timestamp){
   }
   // lastTime = timestamp;
   requestID = window.requestAnimationFrame(moveBackward);
+}
+
+function rotateLeft(timestamp){
+  loopStoped=false;
+  if ( 0 === startTime) {
+    // first loop, dont move; set velocity to 0
+    velocity=0;
+    startTime=timestamp
+  }else{
+    //get how long the animations runs
+    interval = timestamp - startTime;
+    var percentage=getPercentage(interval);
+    rotateCollection("left", percentage);
+  }
+  // lastTime = timestamp;
+  requestID = window.requestAnimationFrame(rotateLeft);
+}
+
+function rotateCollection(directon,percentage){
+  var deg;
+  "left"==directon? deg=1: "right"==directon ? deg=-1:deg=0;
+  deg *= (percentage*3);
+  rotate+=deg;
+  document.querySelector('.container-3d').style.transform="scale3d(2.2,2.2,2.2)   rotateY("+rotate+"deg)";
+  // console.log("ROTATE: "+rotate);
 }
 
 function naviForward() {
