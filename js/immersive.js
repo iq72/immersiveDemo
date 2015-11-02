@@ -134,12 +134,13 @@ function onKeydown(e){
       break;
     case 37:
       console.log("arrowLeft");
+      document.querySelector('.main')&&document.querySelector('.main').classList.remove("main");
       if(loopStoped){
           requestID = window.requestAnimationFrame(rotateLeft);
       }
       break;
     case 39:
-      console.log("arrowRight");
+      console.log("arrowRight");  document.querySelector('.main')&&document.querySelector('.main').classList.remove("main");
       if(loopStoped){
           requestID = window.requestAnimationFrame(rotateRight);
       }
