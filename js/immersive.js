@@ -12,7 +12,9 @@ var lastEvent,
     lastTime=0,
     interval=0,
     A=0.0002,
-    THREHOLD= 20;
+    THREHOLD= 20,
+    rotateCount=0;
+
 
 // reset to defualt
 function onKeyup(e){
@@ -37,22 +39,29 @@ function onKeyup(e){
 
     case 37:
       console.log("keyup: LEFT"+e.keyCode);
-      if(document.querySelector('.center')){
-        document.querySelector('.center').className = document.querySelector('.center').className.replace("center main","left");
-      }
-      if(document.querySelector('.right')) {
-        document.querySelector('.right').className = document.querySelector('.right').className.replace("right","center main");
-      }
+      // if(document.querySelector('.center')){
+      //   document.querySelector('.center').className = document.querySelector('.center').className.replace("center main","left");
+      // }
+      // if(document.querySelector('.right')) {
+      //   document.querySelector('.right').className = document.querySelector('.right').className.replace("right","center main");
+      // }
+      rotateCount++;
+      var deg = 45 * rotateCount;
+      document.querySelector('.container-3d').style.transform="scale3d(2.2,2.2,2.2) rotateY("+deg+"deg)";
+
     break;
 
     case 39:
       console.log("keyup: RIGHT" + e.keyCode);
-      if(document.querySelector('.center')){
-        document.querySelector('.center').className = document.querySelector('.center').className.replace("center main","right");
-      }
-      if(document.querySelector('.left')) {
-        document.querySelector('.left').className = document.querySelector('.left').className.replace("left","center main");
-      }
+      rotateCount--;
+      var deg = 45 * rotateCount;
+      document.querySelector('.container-3d').style.transform="scale3d(2.2,2.2,2.2) rotateY("+deg+"deg)";
+      // if(document.querySelector('.center')){
+      //   document.querySelector('.center').className = document.querySelector('.center').className.replace("center main","right");
+      // }
+      // if(document.querySelector('.left')) {
+      //   document.querySelector('.left').className = document.querySelector('.left').className.replace("left","center main");
+      // }
     break;
 
     default:
