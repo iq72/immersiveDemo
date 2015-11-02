@@ -12,7 +12,9 @@ var lastEvent,
     lastTime=0,
     interval=0,
     A=0.0002,
-    THREHOLD= 20;
+    THREHOLD= 20,
+    rotate=0;
+
 
 // reset to defualt
 function onKeyup(e){
@@ -24,16 +26,48 @@ function onKeyup(e){
 
   switch (e.keyCode) {
     case 38:
-
       //reposite cards to preset slots
       repositeCards("forward");
       // stop the move loop
       stopLoop();
       break;
+
     case 40:
       repositeCards("backward");
       stopLoop();
       break;
+
+    case 37:
+      console.log("keyup: LEFT"+e.keyCode);
+      stopLoop();
+      rotateStandalize("left");
+      // if(document.querySelector('.center')){
+      //   document.querySelector('.center').className = document.querySelector('.center').className.replace("center main","left");
+      // }
+      // if(document.querySelector('.right')) {
+      //   document.querySelector('.right').className = document.querySelector('.right').className.replace("right","center main");
+      // }
+      // rotateCount++;
+      // var deg = 45 * rotateCount;
+      // document.querySelector('.container-3d').style.transform="scale3d(2.2,2.2,2.2) rotateY("+deg+"deg)";
+
+    break;
+
+    case 39:
+      console.log("keyup: RIGHT" + e.keyCode);
+      stopLoop();
+      rotateStandalize("right");
+      // rotateCount--;
+      // var deg = 45 * rotateCount;
+      // document.querySelector('.container-3d').style.transform="scale3d(2.2,2.2,2.2) rotateY("+deg+"deg)";
+      // if(document.querySelector('.center')){
+      //   document.querySelector('.center').className = document.querySelector('.center').className.replace("center main","right");
+      // }
+      // if(document.querySelector('.left')) {
+      //   document.querySelector('.left').className = document.querySelector('.left').className.replace("left","center main");
+      // }
+    break;
+
     default:
       break;
     }
@@ -100,9 +134,15 @@ function onKeydown(e){
       break;
     case 37:
       console.log("arrowLeft");
+      if(loopStoped){
+          requestID = window.requestAnimationFrame(rotateLeft);
+      }
       break;
     case 39:
       console.log("arrowRight");
+      if(loopStoped){
+          requestID = window.requestAnimationFrame(rotateRight);
+      }
       break;
     case 38:
       console.log("arrowUp");
@@ -127,6 +167,7 @@ function getPercentage(interval){
   }else{
     //linear after
     percentage = Math.pow(THREHOLD, 2) * (A / 2) + (A*THREHOLD*(interval - THREHOLD));
+    // console.log("LINEAR");
   }
   //just need the percentage
   percentage = percentage % 1;
@@ -252,6 +293,62 @@ function moveBackward(timestamp){
   }
   // lastTime = timestamp;
   requestID = window.requestAnimationFrame(moveBackward);
+}
+
+function rotateLeft(timestamp){
+  loopStoped=false;
+  if ( 0 === startTime) {
+    // first loop, dont move; set velocity to 0
+    velocity=0;
+    startTime=timestamp
+  }else{
+    //get how long the animations runs
+    interval = timestamp - startTime;
+    var percentage=getPercentage(interval);
+    rotateCollection("left", percentage);
+  }
+  // lastTime = timestamp;
+  requestID = window.requestAnimationFrame(rotateLeft);
+}
+
+function rotateRight(timestamp){
+  loopStoped=false;
+  if ( 0 === startTime) {
+    // first loop, dont move; set velocity to 0
+    velocity=0;
+    startTime=timestamp
+  }else{
+    //get how long the animations runs
+    interval = timestamp - startTime;
+    var percentage=getPercentage(interval);
+    rotateCollection("right", percentage);
+  }
+  // lastTime = timestamp;
+  requestID = window.requestAnimationFrame(rotateRight);
+}
+
+function rotateCollection(directon,percentage){
+  var deg;
+  "left"==directon? deg=1: "right"==directon ? deg=-1:deg=0;
+  deg *= (percentage*8);
+  rotate+=deg;
+  document.querySelector('.container-3d').style.transform="scale3d(2.2,2.2,2.2)   rotateY("+rotate+"deg)";
+  // console.log("ROTATE: "+rotate);
+}
+
+function rotateStandalize(directon){
+  var d=rotate%45;
+  console.log("BEFORE: "+ rotate);
+  console.log("d is :" + d);
+  if("left"==directon){
+    rotate = rotate>0? rotate - d + 45 : rotate - d;
+  }else if("right"==directon){
+    rotate = d<0? rotate - d -45 : rotate-d;
+  }else{
+    console.log("wrong");
+  }
+  console.log("AFTER: "+ rotate);
+  document.querySelector('.container-3d').style.transform="scale3d(2.2,2.2,2.2)   rotateY("+rotate+"deg)";
 }
 
 function naviForward() {
