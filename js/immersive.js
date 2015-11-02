@@ -330,7 +330,7 @@ function rotateRight(timestamp){
 function rotateCollection(directon,percentage){
   var deg;
   "left"==directon? deg=1: "right"==directon ? deg=-1:deg=0;
-  deg *= (percentage*3);
+  deg *= (percentage*8);
   rotate+=deg;
   document.querySelector('.container-3d').style.transform="scale3d(2.2,2.2,2.2)   rotateY("+rotate+"deg)";
   // console.log("ROTATE: "+rotate);
@@ -341,9 +341,9 @@ function rotateStandalize(directon){
   console.log("BEFORE: "+ rotate);
   console.log("d is :" + d);
   if("left"==directon){
-    rotate = rotate - d + 45;
+    rotate = rotate>0? rotate - d + 45 : rotate - d;
   }else if("right"==directon){
-    rotate = rotate - d;
+    rotate = d<0? rotate - d -45 : rotate-d;
   }else{
     console.log("wrong");
   }
