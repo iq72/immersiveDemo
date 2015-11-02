@@ -24,18 +24,23 @@ function onKeyup(e){
 
   switch (e.keyCode) {
     case 38:
-
       //reposite cards to preset slots
       repositeCards("forward");
       // stop the move loop
       stopLoop();
       break;
+
     case 40:
       repositeCards("backward");
       stopLoop();
       break;
     default:
       break;
+
+    case 37:
+      console.log("keyup: LEFT"+e.keyCode);
+      document.querySelector('.center').classList.toggle("main");
+    break;
     }
 
 }
