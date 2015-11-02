@@ -40,6 +40,7 @@ function onKeyup(e){
     case 37:
       console.log("keyup: LEFT"+e.keyCode);
       stopLoop();
+      rotateStandalize("left");
       // if(document.querySelector('.center')){
       //   document.querySelector('.center').className = document.querySelector('.center').className.replace("center main","left");
       // }
@@ -54,6 +55,8 @@ function onKeyup(e){
 
     case 39:
       console.log("keyup: RIGHT" + e.keyCode);
+      stopLoop();
+      rotateStandalize("right");
       // rotateCount--;
       // var deg = 45 * rotateCount;
       // document.querySelector('.container-3d').style.transform="scale3d(2.2,2.2,2.2) rotateY("+deg+"deg)";
@@ -137,6 +140,9 @@ function onKeydown(e){
       break;
     case 39:
       console.log("arrowRight");
+      if(loopStoped){
+          requestID = window.requestAnimationFrame(rotateRight);
+      }
       break;
     case 38:
       console.log("arrowUp");
@@ -305,6 +311,22 @@ function rotateLeft(timestamp){
   requestID = window.requestAnimationFrame(rotateLeft);
 }
 
+function rotateRight(timestamp){
+  loopStoped=false;
+  if ( 0 === startTime) {
+    // first loop, dont move; set velocity to 0
+    velocity=0;
+    startTime=timestamp
+  }else{
+    //get how long the animations runs
+    interval = timestamp - startTime;
+    var percentage=getPercentage(interval);
+    rotateCollection("right", percentage);
+  }
+  // lastTime = timestamp;
+  requestID = window.requestAnimationFrame(rotateRight);
+}
+
 function rotateCollection(directon,percentage){
   var deg;
   "left"==directon? deg=1: "right"==directon ? deg=-1:deg=0;
@@ -312,6 +334,21 @@ function rotateCollection(directon,percentage){
   rotate+=deg;
   document.querySelector('.container-3d').style.transform="scale3d(2.2,2.2,2.2)   rotateY("+rotate+"deg)";
   // console.log("ROTATE: "+rotate);
+}
+
+function rotateStandalize(directon){
+  var d=rotate%45;
+  console.log("BEFORE: "+ rotate);
+  console.log("d is :" + d);
+  if("left"==directon){
+    rotate = rotate - d + 45;
+  }else if("right"==directon){
+    rotate = rotate - d;
+  }else{
+    console.log("wrong");
+  }
+  console.log("AFTER: "+ rotate);
+  document.querySelector('.container-3d').style.transform="scale3d(2.2,2.2,2.2)   rotateY("+rotate+"deg)";
 }
 
 function naviForward() {
