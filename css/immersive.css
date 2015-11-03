@@ -111,23 +111,39 @@ main {
   transform-style: preserve-3d;
   width: 480px;
   height:270px;
-  /*margin-left: -240px;
-  margin-top: -135px;*/
-  /*top:15%;*/
 }
 
-.left{
- transform: rotateY(45deg)
-            translate3d(0px,0px, -800px);
-}
-
-.center{
-  transform: translate3d(0px, 0px, -800px);
-}
-
-.right{
+.collections:nth-child(1){
   transform: rotateY(-45deg)
-             translate3d(0px, 0px, -800px);
+             translate3d(0px,0px, -800px);
+}
+.collections:nth-child(2){
+  transform: rotateY(0deg)
+             translate3d(0px,0px, -800px);
+}
+.collections:nth-child(3){
+  transform: rotateY(45deg)
+             translate3d(0px,0px, -800px);
+}
+.collections:nth-child(4){
+  transform: rotateY(90deg)
+             translate3d(0px,0px, -800px);
+}
+.collections:nth-child(5){
+  transform: rotateY(135deg)
+             translate3d(0px,0px, -800px);
+}
+.collections:nth-child(6){
+  transform: rotateY(180deg)
+             translate3d(0px,0px, -800px);
+}
+.collections:nth-child(7){
+  transform: rotateY(-135deg)
+             translate3d(0px,0px, -800px);
+}
+.collections:nth-child(8){
+  transform: rotateY(-90deg)
+             translate3d(0px,0px, -800px);
 }
 
 .card{
@@ -165,32 +181,32 @@ main {
 }
 
 /* focused cards style */
-.main .layer-1{
+.center .layer-1{
   transform: translate3d(0px, 0px, -500px);
 }
 
-.main .layer-2{
+.center .layer-2{
   transform: translate3d(0px, 0px, -400px);
 }
 
-.main .layer-3{
+.center .layer-3{
   transform: translate3d(0px, 0px, -300px);
 }
 
-.main .layer-4{
+.center .layer-4{
   transform: translate3d(0px, 0px, -200px);
 }
 
-.main .layer-5{
+.center .layer-5{
   transform: translate3d(0px, 0px, 100px);
 }
 
-.main .layer-6{
+.center .layer-6{
   transform: translate3d(0px, 260px, 250px) scale3d(1.2,1.2,1);
   opacity: 0;
 }
 
-.main .layer-0{
+.center .layer-0{
   transform: translate3d(0px, 0px, -600px);
   opacity: 0;
 }

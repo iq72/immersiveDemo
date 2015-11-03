@@ -41,31 +41,14 @@ function onKeyup(e){
       console.log("keyup: LEFT"+e.keyCode);
       stopLoop();
       rotateStandalize("left");
-      // if(document.querySelector('.center')){
-      //   document.querySelector('.center').className = document.querySelector('.center').className.replace("center main","left");
-      // }
-      // if(document.querySelector('.right')) {
-      //   document.querySelector('.right').className = document.querySelector('.right').className.replace("right","center main");
-      // }
-      // rotateCount++;
-      // var deg = 45 * rotateCount;
-      // document.querySelector('.container-3d').style.transform="scale3d(2.2,2.2,2.2) rotateY("+deg+"deg)";
-
+      setTimeout(setFocus, 300);
     break;
 
     case 39:
       console.log("keyup: RIGHT" + e.keyCode);
       stopLoop();
       rotateStandalize("right");
-      // rotateCount--;
-      // var deg = 45 * rotateCount;
-      // document.querySelector('.container-3d').style.transform="scale3d(2.2,2.2,2.2) rotateY("+deg+"deg)";
-      // if(document.querySelector('.center')){
-      //   document.querySelector('.center').className = document.querySelector('.center').className.replace("center main","right");
-      // }
-      // if(document.querySelector('.left')) {
-      //   document.querySelector('.left').className = document.querySelector('.left').className.replace("left","center main");
-      // }
+      setTimeout(setFocus, 300);
     break;
 
     default:
@@ -116,6 +99,10 @@ function stopLoop(){
   }
 }
 
+function setFocus(){
+  document.querySelector('.transition.collections').classList.add("center");
+}
+
 function onKeydown(e){
   // console.log(e.keyCode);
   var cards=document.querySelectorAll('.center .card');
@@ -134,12 +121,15 @@ function onKeydown(e){
       break;
     case 37:
       console.log("arrowLeft");
+      document.querySelector('.center')&&document.querySelector('.center').classList.remove("center");
+      document.querySelector('.collections.transition')&&document.querySelector('.collections.transition').classList.remove("transition");
       if(loopStoped){
           requestID = window.requestAnimationFrame(rotateLeft);
       }
       break;
     case 39:
-      console.log("arrowRight");
+      console.log("arrowRight");  document.querySelector('.center')&&document.querySelector('.center').classList.remove("center");
+      document.querySelector('.collections.transition')&&document.querySelector('.collections.transition').classList.remove("transition");
       if(loopStoped){
           requestID = window.requestAnimationFrame(rotateRight);
       }
@@ -257,7 +247,7 @@ function moveCards(directon, percentage){
       // card.style.opacity="1";
       document.querySelector(".center").insertBefore(card,cards[0]);
     }
-    if(i==0){
+    if(i===0){
       // console.log(card.style.transform);
     }
   }
@@ -268,7 +258,7 @@ function moveForward(timestamp) {
   if ( 0 === startTime) {
     // first loop, dont move; set velocity to 0
     velocity=0;
-    startTime=timestamp
+    startTime=timestamp;
   }else{
     //get how long the animations runs
     interval = timestamp - startTime;
@@ -284,7 +274,7 @@ function moveBackward(timestamp){
   if ( 0 === startTime) {
     // first loop, dont move; set velocity to 0
     velocity=0;
-    startTime=timestamp
+    startTime=timestamp;
   }else{
     //get how long the animations runs
     interval = timestamp - startTime;
@@ -300,7 +290,7 @@ function rotateLeft(timestamp){
   if ( 0 === startTime) {
     // first loop, dont move; set velocity to 0
     velocity=0;
-    startTime=timestamp
+    startTime=timestamp;
   }else{
     //get how long the animations runs
     interval = timestamp - startTime;
@@ -316,7 +306,7 @@ function rotateRight(timestamp){
   if ( 0 === startTime) {
     // first loop, dont move; set velocity to 0
     velocity=0;
-    startTime=timestamp
+    startTime=timestamp;
   }else{
     //get how long the animations runs
     interval = timestamp - startTime;
@@ -329,7 +319,7 @@ function rotateRight(timestamp){
 
 function rotateCollection(directon,percentage){
   var deg;
-  "left"==directon? deg=1: "right"==directon ? deg=-1:deg=0;
+  "left"==directon? deg=1: "right"==directon ? deg=-1:deg = 0;
   deg *= (percentage*8);
   rotate+=deg;
   document.querySelector('.container-3d').style.transform="scale3d(2.2,2.2,2.2)   rotateY("+rotate+"deg)";
@@ -349,6 +339,10 @@ function rotateStandalize(directon){
   }
   console.log("AFTER: "+ rotate);
   document.querySelector('.container-3d').style.transform="scale3d(2.2,2.2,2.2)   rotateY("+rotate+"deg)";
+
+  //restore center class
+  var index=(9-((rotate/45)%8))%8; //get center position
+  document.querySelectorAll('.collections')[index].classList.add("transition");
 }
 
 function naviForward() {
@@ -364,7 +358,7 @@ function naviForward() {
         newClass="layer-"+(1+i);
       }else {
         newClass="layer-0";
-        document.querySelector('.center').insertBefore(card, document.querySelector('.main .layer-1'));
+        document.querySelector('.center').insertBefore(card, document.querySelector(' .layer-1'));
         // need to rebind layer-0 content
       }
       card.classList.remove(curClass);
