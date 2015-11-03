@@ -41,6 +41,7 @@ function onKeyup(e){
       console.log("keyup: LEFT"+e.keyCode);
       stopLoop();
       rotateStandalize("left");
+      document.querySelector('body').className="transition";
       setTimeout(setFocus, 300);
     break;
 
@@ -48,6 +49,7 @@ function onKeyup(e){
       console.log("keyup: RIGHT" + e.keyCode);
       stopLoop();
       rotateStandalize("right");
+      document.querySelector('body').className="transition";
       setTimeout(setFocus, 300);
     break;
 
@@ -121,6 +123,11 @@ function onKeydown(e){
       break;
     case 37:
       console.log("arrowLeft");
+
+      //remove body transition
+      document.querySelector('body').className="";
+
+      //remove transition && center class for collections
       document.querySelector('.center')&&document.querySelector('.center').classList.remove("center");
       document.querySelector('.collections.transition')&&document.querySelector('.collections.transition').classList.remove("transition");
       if(loopStoped){
@@ -128,7 +135,13 @@ function onKeydown(e){
       }
       break;
     case 39:
-      console.log("arrowRight");  document.querySelector('.center')&&document.querySelector('.center').classList.remove("center");
+      console.log("arrowRight");
+
+      //remove body transition
+      document.querySelector('body').className="";
+
+      //remove transition && center class for collections
+      document.querySelector('.center')&&document.querySelector('.center').classList.remove("center");
       document.querySelector('.collections.transition')&&document.querySelector('.collections.transition').classList.remove("transition");
       if(loopStoped){
           requestID = window.requestAnimationFrame(rotateRight);
@@ -323,6 +336,8 @@ function rotateCollection(directon,percentage){
   deg *= (percentage*8);
   rotate+=deg;
   document.querySelector('.container-3d').style.transform="scale3d(2.2,2.2,2.2)   rotateY("+rotate+"deg)";
+  var bgRoll=rotate/0.45;
+  document.querySelector('body').style.backgroundPositionX = bgRoll+"%";
   // console.log("ROTATE: "+rotate);
 }
 
@@ -339,7 +354,9 @@ function rotateStandalize(directon){
   }
   console.log("AFTER: "+ rotate);
   document.querySelector('.container-3d').style.transform="scale3d(2.2,2.2,2.2)   rotateY("+rotate+"deg)";
-
+  // background rolling
+  var bgRoll=rotate/0.45;
+  document.querySelector('body').style.backgroundPositionX = bgRoll+"%";
   //restore center class
   var index=(9-((rotate/45)%8))%8; //get center position
   document.querySelectorAll('.collections')[index].classList.add("transition");
