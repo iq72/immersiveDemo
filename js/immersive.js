@@ -42,10 +42,10 @@ function onKeyup(e){
       stopLoop();
       rotateStandalize("left");
       // if(document.querySelector('.center')){
-      //   document.querySelector('.center').className = document.querySelector('.center').className.replace("center main","left");
+      //   document.querySelector('.center').className = document.querySelector('.center').className.replace("center center","left");
       // }
       // if(document.querySelector('.right')) {
-      //   document.querySelector('.right').className = document.querySelector('.right').className.replace("right","center main");
+      //   document.querySelector('.right').className = document.querySelector('.right').className.replace("right","center center");
       // }
       // rotateCount++;
       // var deg = 45 * rotateCount;
@@ -61,10 +61,10 @@ function onKeyup(e){
       // var deg = 45 * rotateCount;
       // document.querySelector('.container-3d').style.transform="scale3d(2.2,2.2,2.2) rotateY("+deg+"deg)";
       // if(document.querySelector('.center')){
-      //   document.querySelector('.center').className = document.querySelector('.center').className.replace("center main","right");
+      //   document.querySelector('.center').className = document.querySelector('.center').className.replace("center center","right");
       // }
       // if(document.querySelector('.left')) {
-      //   document.querySelector('.left').className = document.querySelector('.left').className.replace("left","center main");
+      //   document.querySelector('.left').className = document.querySelector('.left').className.replace("left","center center");
       // }
     break;
 
@@ -134,13 +134,13 @@ function onKeydown(e){
       break;
     case 37:
       console.log("arrowLeft");
-      document.querySelector('.main')&&document.querySelector('.main').classList.remove("main");
+      document.querySelector('.center')&&document.querySelector('.center').classList.remove("center");
       if(loopStoped){
           requestID = window.requestAnimationFrame(rotateLeft);
       }
       break;
     case 39:
-      console.log("arrowRight");  document.querySelector('.main')&&document.querySelector('.main').classList.remove("main");
+      console.log("arrowRight");  document.querySelector('.center')&&document.querySelector('.center').classList.remove("center");
       if(loopStoped){
           requestID = window.requestAnimationFrame(rotateRight);
       }
@@ -350,6 +350,10 @@ function rotateStandalize(directon){
   }
   console.log("AFTER: "+ rotate);
   document.querySelector('.container-3d').style.transform="scale3d(2.2,2.2,2.2)   rotateY("+rotate+"deg)";
+
+  //restore center class
+  var index=(9-((rotate/45)%8))%8; //get center position
+  document.querySelectorAll('.collections')[index].classList.add("center");
 }
 
 function naviForward() {
@@ -365,7 +369,7 @@ function naviForward() {
         newClass="layer-"+(1+i);
       }else {
         newClass="layer-0";
-        document.querySelector('.center').insertBefore(card, document.querySelector('.main .layer-1'));
+        document.querySelector('.center').insertBefore(card, document.querySelector(' .layer-1'));
         // need to rebind layer-0 content
       }
       card.classList.remove(curClass);
