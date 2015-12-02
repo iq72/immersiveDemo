@@ -1,7 +1,17 @@
 function main (){
   console.log("loaded");
+  AV.intialize('aDJ9l8WQt4kwkHW6tMWXkKO4', 'Y6HmzQpD63BbK9pVVT1FmmPy');
   document.addEventListener('keydown', onKeydown, false);
   document.addEventListener('keyup', onKeyup, false);
+  var TestObject = AV.Object.extend('TestObject');
+var testObject = new TestObject();
+testObject.save({
+  foo: 'bar'
+}, {
+  success: function(object) {
+    alert('LeanCloud works!');
+  }
+});
 }
 document.addEventListener('DOMContentLoaded', main, false);
 var lastEvent,
