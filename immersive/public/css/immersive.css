@@ -74,6 +74,12 @@ footer{
   /*background-color: rgba(104, 245, 203, 0.35);*/
 }
 
+.info-left, .meta-info {
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+}
+
 .info-left{
   left: 12%;
 }
