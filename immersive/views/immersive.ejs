@@ -32,9 +32,15 @@
         </div>
         <div class="collections center">
           <% for(var i=0; i<7; i++){ %>
-            <video width="480" height="270" src="videofile.ogg" >
-              
-            </video>
+          <div class="card layer-<%=i%>">
+              <video width="480" height="270"
+              <% if(5 === i){ %>
+                autoplay
+              <% } %>
+              >
+                <source src="<%= videos[4].get('SRC')%>" type="video/mp4">
+              </video>
+          </div>
           <% } %>
         </div>
         <div class="collections">
@@ -96,23 +102,23 @@
     <footer>
       <div class="info-left">
         <p>
-          <%= videos[0].get('Discriptions')%>
+          <%= videos[4].get('Discriptions')%>
         </p>
       </div>
       <div class="info-right">
         <div class="ratings">
           <p>
-            <%= videos[0].get('Rate')%>
+            <%= videos[4].get('Rate')%>
           </p>
         </div>
         <div class="meta-info">
           <p>
-            <%= videos[0].get('Staff')%>
+            <%= videos[4].get('Staff')%>
           </p>
         </div>
       </div>
       <h1 class="titles-item">
-        <%= videos[0].get('Title')%>
+        <%= videos[4].get('Title')%>
       </h1>
     </footer>
   </body>
