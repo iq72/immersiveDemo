@@ -5,7 +5,7 @@
     <title>immersiveUI</title>
     <link rel="stylesheet" href="./css/immersive.css" media="screen" title="no title" charset="utf-8">
     <link rel="stylesheet" href="./css/icon-fonts.css" media="screen" title="no title" charset="utf-8">
-    <script type="text/javascript" src="./js/immersive.js"> </script>
+    <script type="text/javascript" src="./js/immersiveui.js"> </script>
   </head>
   <body>
     <header>
@@ -31,13 +31,13 @@
           <div class="card layer-6"></div>
         </div>
         <div class="collections center">
-          <div class="card layer-0"></div>
-          <div class="card layer-1"></div>
-          <div class="card layer-2"></div>
-          <div class="card layer-3"></div>
-          <div class="card layer-4"></div>
-          <div class="card layer-5"></div>
-          <div class="card layer-6"></div>
+          <% for(var i=0; i<7; i++){ %>
+            <div class="card layer-<%=i%>">
+              <iframe src="
+              <%= videos[i].get('Source')%>
+              " width="580" height="490"></iframe>
+            </div>
+          <% } %>
         </div>
         <div class="collections">
           <div class="card layer-0"></div>
@@ -97,18 +97,18 @@
     </main>
     <footer>
       <div class="info-left">
-        discriptions
+        <%= videos[0].get('Discriptions')%>
       </div>
       <div class="info-right">
         <div class="ratings">
-          6.5
+          <%= videos[0].get('Rate')%>
         </div>
         <div class="meta-info">
-          meta-info
+          <%= videos[0].get('Staff')%>
         </div>
       </div>
       <h1 class="titles-item">
-        hua qian gu
+        <%= videos[0].get('Title')%>
       </h1>
     </footer>
   </body>
