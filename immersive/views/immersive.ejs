@@ -34,11 +34,12 @@
           <% for(var i=0; i<7; i++){ %>
           <div class="card layer-<%=i%>">
               <video width="480" height="270"
-              <% if(5 === i){ %>
+              <% if( 5 === i){ %>
                 autoplay
               <% } %>
+              poster = "<%= videos[i].get('Poster')%>"
               >
-                <source src="<%= videos[4].get('SRC')%>" type="video/mp4">
+                <source src="<%= videos[i].get('SRC')%>" type="video/mp4">
               </video>
           </div>
           <% } %>

@@ -78,7 +78,7 @@ function repositeCards(directon){
       // console.log("NO STYLE: "+ card);
     }
 
-
+// set right className
     card.className = card.className.replace(re,"transition layer-"+(i+directon));
      //replace layer classes as order
     if((i+directon)>=cards.length){
@@ -90,6 +90,9 @@ function repositeCards(directon){
       document.querySelector(".center").appendChild(card);
     }
   }
+
+//replaying from pause
+  document.querySelector('.card.transition.layer-5').children[0].play();
 }
 
 function stopLoop(){
@@ -108,8 +111,15 @@ function setFocus(){
 function onKeydown(e){
   // console.log(e.keyCode);
   var cards=document.querySelectorAll('.center .card');
-  for(var i=0; i<cards.length; i++){
-    cards[i].classList.remove("transition");
+  if(38===e.keyCode || 40===e.keyCode || 37 === e.keyCode || 39===e.keyCode){
+    for(var i=0; i<cards.length; i++){
+      cards[i].classList.remove("transition");
+    }
+    var videos =document.querySelectorAll('video');
+    [].forEach.call(videos, function(video) {
+      // body...
+      video.pause();
+    });
   }
   switch (e.keyCode) {
     case 13:
@@ -192,10 +202,10 @@ function moveCards(directon, percentage){
       }
     }else {
       p=null;
-      console.log("jump out");
+    //  console.log("jump out");
       break;
     }
-    console.log("percentage: "+p);
+  //  console.log("percentage: "+p);
     var card=cards[i];
 
     /*
@@ -343,8 +353,8 @@ function rotateCollection(directon,percentage){
 
 function rotateStandalize(directon){
   var d=rotate%45;
-  console.log("BEFORE: "+ rotate);
-  console.log("d is :" + d);
+//  console.log("BEFORE: "+ rotate);
+//  console.log("d is :" + d);
   if("left"==directon){
     rotate = rotate>0? rotate - d + 45 : rotate - d;
   }else if("right"==directon){
@@ -352,7 +362,7 @@ function rotateStandalize(directon){
   }else{
     console.log("wrong");
   }
-  console.log("AFTER: "+ rotate);
+//  console.log("AFTER: "+ rotate);
   document.querySelector('.container-3d').style.transform="scale3d(2.2,2.2,2.2)   rotateY("+rotate+"deg)";
   // background rolling
   var bgRoll=rotate/0.45;
@@ -388,7 +398,7 @@ function naviBackward() {
     var cards=document.querySelectorAll('.center .card');
     // console.log(cards);
     for (var i=0; i<cards.length; i++){
-      console.log("change started");
+    //  console.log("change started");
       var card=cards[i];
       var curClass="layer-"+i ,
           newClass;
