@@ -2,6 +2,9 @@ function main (){
   console.log("loaded");
   document.addEventListener('keydown', onKeydown, false);
   document.addEventListener('keyup', onKeyup, false);
+  if(vvv){
+    console.log("GET VIDEOS \n" + vvv);
+  }
 }
 document.addEventListener('DOMContentLoaded', main, false);
 var lastEvent,

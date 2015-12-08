@@ -5,13 +5,13 @@ var AV = require('leanengine');
 // 详见： https://leancloud.cn/docs/js_guide.html#对象
 var Videos = AV.Object.extend('Videos');
 
-// 查询 Todo 列表
+// 获取Videos信息
 router.get('/', function(req, res, next) {
   var query = new AV.Query(Videos);
   query.descending('createdAt');
   query.find({
     success: function(results) {
-      console.log("Results: \n" + results);
+      console.log("Results: \n" + results[3]);
       res.render('immersive', {
         videos: results
       });
