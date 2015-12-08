@@ -12,8 +12,16 @@ router.get('/', function(req, res, next) {
   query.find({
     success: function(results) {
       console.log("Results: \n" + results[3]);
+      // var jvs=[];
+      // results.forEach(function(result){
+      //     // console.log("TYPE OF Result : "+ typeof(result.get('result')));
+      //     var jsonString = JSON.stringify(result);
+      //     jvs.push(jsonString);
+      //     // console.log("JSONsting: \n"+jsonString);
+      // });
       res.render('immersive', {
-        videos: results
+        videos: results,
+      //  jvideos: jvs
       });
     },
     error: function(err) {

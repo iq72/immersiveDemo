@@ -2,8 +2,8 @@ function main (){
   console.log("loaded");
   document.addEventListener('keydown', onKeydown, false);
   document.addEventListener('keyup', onKeyup, false);
-  if(vvv){
-    console.log("GET VIDEOS \n" + vvv);
+  if(videoJSON){
+    console.log("GET VIDEOS \n" + videoJSON);
   }
 }
 document.addEventListener('DOMContentLoaded', main, false);

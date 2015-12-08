@@ -6,13 +6,11 @@
     <link rel="stylesheet" href="./css/immersive.css" media="screen" title="no title" charset="utf-8">
     <link rel="stylesheet" href="./css/icon-fonts.css" media="screen" title="no title" charset="utf-8">
     <script type="text/javascript">
-    var vvv=6;
-      // var vvv= JSON.parse('<%= videos%>');
-      //  <% videos.forEach(function(video) { %>
-      //    // body...
-      //    vvv.push(<%=video%>);
-      //  <% }); %>
-      // console.log("Parsing VVV \n"+vvv);
+      var videoJSON=[];
+      <% videos.forEach(function(video){ %>
+         videoJSON.push( <%- JSON.stringify(video) %> );
+        // console.log("strings: \n"+jsonString);
+      <% }) %>
     </script>
     <script type="text/javascript" src="./js/immersiveui.js"> </script>
   </head>
