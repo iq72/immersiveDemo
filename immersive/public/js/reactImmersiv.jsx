@@ -28,8 +28,8 @@ var StatusLeft = React.createClass({
   render : function(){
     return (
       <div className="status-left">
-        <span className="icon-notifications"></span>
-        <span className="icon-file_download"></span>
+        <span className="icon-notifications"> </span>
+        <span className="icon-file_download"> </span>
       </div>
     );
   }
@@ -39,9 +39,9 @@ var StatusRight = React.createClass({
   render : function(){
     return (
       <div className="status-right">
-        <span className="icon-bluetooth"></span>
-        <span className="icon-wifi"></span>
-        <span className="icon-cast_connected"></span> 20:15
+        <span className="icon-bluetooth"> </span>
+        <span className="icon-wifi"> </span>
+        <span className="icon-cast_connected"> </span> 20:15
       </div>
     );
   }

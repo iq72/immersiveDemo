@@ -95,7 +95,7 @@ function repositeCards(directon){
   }
 
 //replaying from pause
-  document.querySelector('.card.transition.layer-5').children[0].play();
+  // document.querySelector('.card.transition.layer-5').children[0].play();
 }
 
 function stopLoop(){
