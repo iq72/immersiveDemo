@@ -1,5 +1,11 @@
 console.log("REACT LOADED");
 
+if(videoJSON){
+  console.log("We can use videoJSON in react");
+}else{
+  console.log("ERROR: something wrong with the JSON data");
+}
+
 var ImsvUI = React.createClass({
   render : function(){
     return(
@@ -62,10 +68,15 @@ var Explorer = React.createClass({
       var className = "collections";
       if(1===i){
         className += " center";
+        catergories.push(
+          <CardCollections catergory="video" className={className} key={i}/>
+        );
+      }else {
+        catergories.push(
+          <CardCollections catergory="card" className={className} key={i}/>
+        );
       }
-      catergories.push(
-        <CardCollections className={className} key={i}/>
-      );
+
     }
     return (
       <main>
@@ -78,15 +89,24 @@ var Explorer = React.createClass({
 });
 
 var CardCollections = React.createClass({
+  catergory:"",
   className:"",
   render:function(){
     var collections=[];
     for (var i=0; i<7; i++) {
         var layer = "card layer-"+i;
         var key="layer-"+i;
-        collections.push(
-          <Card layer={layer} key={key}/>
-        );
+        var src=videoJSON[i].SRC;
+        var poster=videoJSON[i].Poster;
+        if("video"==this.props.catergory){
+          collections.push(
+            <VideoCard layer={layer} key={key} src={src} poster={poster}/>
+          );
+        }else{
+          collections.push(
+            <Card layer={layer} key={key}/>
+          );
+        }
     }
     return(
       <div className = {this.props.className}>
@@ -102,6 +122,18 @@ var Card = React.createClass({
     return(
       <div className={this.props.layer}>
         I am a card.
+      </div>
+    );
+  }
+});
+
+var VideoCard = React.createClass({
+  render:function(){
+    return(
+      <div className={this.props.layer}>
+        <video width="480" height="270" poster={this.props.poster} >
+          <source src={this.props.src} type="video/mp4" />
+        </video>
       </div>
     );
   }
@@ -146,6 +178,24 @@ var InfoRight = React.createClass({
     );
   }
 });
+
+var Rate = React.createClass({
+  rate:0,
+  render:function(){
+    return(
+      <p>{this.props.rate}</p>
+    );
+  }
+});
+
+var Staff = React.createClass({
+  staff:"",
+  render : function(){
+    return(
+      <p>{this.props.staff}</p>
+    );
+  }
+})
 
 ReactDOM.render(
   <ImsvUI />,

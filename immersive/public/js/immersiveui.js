@@ -120,7 +120,6 @@ function onKeydown(e){
     }
     var videos =document.querySelectorAll('video');
     [].forEach.call(videos, function(video) {
-      // body...
       video.pause();
     });
   }
