@@ -131,9 +131,7 @@ var VideoCard = React.createClass({
   render:function(){
     return(
       <div className={this.props.layer}>
-        <video width="480" height="270" poster={this.props.poster} >
-          <source src={this.props.src} type="video/mp4" />
-        </video>
+        <img src={this.props.poster} alt="#" />
       </div>
     );
   }

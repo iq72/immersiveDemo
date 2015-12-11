@@ -14,8 +14,8 @@ var lastEvent,
     startTime=0,
     lastTime=0,
     interval=0,
-    A=0.0002,
-    THREHOLD= 20,
+    Vmax= 0.005,
+    THREHOLD= 500,
     rotate=0;
 
 
@@ -178,15 +178,19 @@ function getPercentage(interval){
   var percentage;
   if(interval<THREHOLD){
     // p=1/2 * A * t * t
-    percentage = Math.pow(interval, 2) * A / 2 ;
+    var a = Vmax / THREHOLD;
+    percentage = Math.pow(interval, 2) * a / 2 ;
   }else{
     //linear after
-    percentage = Math.pow(THREHOLD, 2) * (A / 2) + (A*THREHOLD*(interval - THREHOLD));
+    percentage = interval*Vmax - (THREHOLD * Vmax / 2);
     // console.log("LINEAR");
   }
   //just need the percentage
-  percentage = percentage % 1;
+  // percentage = percentage % 7;
+  // percentage = interval / 200;
+  console.log("PERCENTAGE : \n"+percentage);
   return percentage;
+
 }
 
 function moveCards(directon, percentage){
@@ -196,9 +200,9 @@ function moveCards(directon, percentage){
   for (var i=0; i<cards.length; i++){
     if("forward"==directon){
       console.log("moveForward");
-      p=i+percentage;
+      p=(i+percentage)%7;
     }else if ("backward"==directon) {
-      p=i-percentage;
+      p=(i-percentage)%7;
       if(p<0){
         p=p+7;
       }
@@ -232,6 +236,7 @@ function moveCards(directon, percentage){
     card transform curve
     it's not linear in different devarity
     */
+    console.log("befor Transform, Z is "+z);
     if(p < 4){ // for cards in behind
       z = Math.round((p * 100) - 600);
       card.style.opacity="1";
@@ -267,10 +272,11 @@ function moveCards(directon, percentage){
       // console.log("BEFORE TRANSFORM: "+ transformValue);
     }
     if(350 <= z){// resert the card to start point when reach end
+      console.log("resert to back");
       // z =Math.round((p*100)-600);
       // card.style.transform="translate3d(0px, 0px, " + z +"px)";
       // card.style.opacity="1";
-      document.querySelector(".center").insertBefore(card,cards[0]);
+       document.querySelector(".center").insertBefore(card,cards[0]);
     }
     if(i===0){
       // console.log(card.style.transform);
