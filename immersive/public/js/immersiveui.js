@@ -26,7 +26,7 @@ function onKeyup(e){
   startTime = 0;
   lastTime = 0;
   interval = 0;
-
+  stopLoop();
   switch (e.keyCode) {
     case 38:
       //reposite cards to preset slots
@@ -55,7 +55,7 @@ function onKeyup(e){
       break;
     }
   // stop the move loop
-  stopLoop();
+
 
 }
 
@@ -78,7 +78,7 @@ function repositeCards(directon){
        console.log("NO STYLE: "+ card);
     }
 
-// set right className
+    // set right className
     var layerNum=i+directon;
     card.className = card.className.replace(re,"transition layer-"+layerNum);
      //replace layer classes as order
@@ -234,7 +234,6 @@ function moveCards(directon, percentage){
     card transform curve
     it's not linear in different devarity
     */
-    console.log("befor Transform, Z is "+z);
     if(p < 4){ // for cards in behind
       z = Math.round((p * 100) - 600);
       card.style.opacity="1";
@@ -266,6 +265,13 @@ function moveCards(directon, percentage){
       card.style.opacity=0;
       card.style.transform="translate3d(0px, "+ y +"px, " + z +"px) "+
                            "scale3d(" + scaleX +", "+scaleY+", "+scaleZ +")";
+
+      if(p>6.99){
+        if(card!=cards[6]){
+          console.log("WARNING : \n Replace the wrong card.");
+        }
+        document.querySelector(".center").insertBefore(card,cards[0]);
+      }
       // console.log("BEFORE TRANSFORM: "+ transformValue);
     }
     // if(349 <= z){// resert the card to start point when reach end
@@ -273,7 +279,7 @@ function moveCards(directon, percentage){
     //   // z =Math.round((p*100)-600);
     //   // card.style.transform="translate3d(0px, 0px, " + z +"px)";
     //   // card.style.opacity="1";
-    //   //  document.querySelector(".center").insertBefore(card,cards[0]);
+    //   //
     // }
     if(i===0){
       // console.log(card.style.transform);

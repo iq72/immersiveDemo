@@ -166,7 +166,7 @@ main {
 
 .transition{
   transition-property:opacity transform background-position;
-  transition-duration: 0.3s;
+  transition-duration: 0.2s;
   transition-timing-function: ease-out;
 }
 
