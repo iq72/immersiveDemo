@@ -14,8 +14,8 @@ var lastEvent,
     startTime=0,
     lastTime=0,
     interval=0,
-    Vmax= 0.005,
-    THREHOLD= 500,
+    Vmax= 0.005, // Max speed of card moving
+    Atime= 500,  // Accelerating time
     rotate=0;
 
 
@@ -31,18 +31,14 @@ function onKeyup(e){
     case 38:
       //reposite cards to preset slots
       repositeCards("forward");
-      // stop the move loop
-      stopLoop();
       break;
 
     case 40:
       repositeCards("backward");
-      stopLoop();
       break;
 
     case 37:
       console.log("keyup: LEFT"+e.keyCode);
-      stopLoop();
       rotateStandalize("left");
       document.querySelector('body').className="transition";
       setTimeout(setFocus, 300);
@@ -50,7 +46,6 @@ function onKeyup(e){
 
     case 39:
       console.log("keyup: RIGHT" + e.keyCode);
-      stopLoop();
       rotateStandalize("right");
       document.querySelector('body').className="transition";
       setTimeout(setFocus, 300);
@@ -59,6 +54,8 @@ function onKeyup(e){
     default:
       break;
     }
+  // stop the move loop
+  stopLoop();
 
 }
 
@@ -78,13 +75,14 @@ function repositeCards(directon){
     if(card.attributes&&card.attributes.style){
       card.attributes.removeNamedItem("style");
     }else {
-      // console.log("NO STYLE: "+ card);
+       console.log("NO STYLE: "+ card);
     }
 
 // set right className
-    card.className = card.className.replace(re,"transition layer-"+(i+directon));
+    var layerNum=i+directon;
+    card.className = card.className.replace(re,"transition layer-"+layerNum);
      //replace layer classes as order
-    if((i+directon)>=cards.length){
+    if(layerNum >= cards.length){
      card.className = card.className.replace(re,"layer-0");
      document.querySelector(".center").insertBefore(card,cards[0]);
     }
@@ -176,13 +174,13 @@ the velocity curve
 */
 function getPercentage(interval){
   var percentage;
-  if(interval<THREHOLD){
+  if(interval<Atime){
     // p=1/2 * A * t * t
-    var a = Vmax / THREHOLD;
+    var a = Vmax / Atime;
     percentage = Math.pow(interval, 2) * a / 2 ;
   }else{
     //linear after
-    percentage = interval*Vmax - (THREHOLD * Vmax / 2);
+    percentage = interval*Vmax - (Atime * Vmax / 2);
     // console.log("LINEAR");
   }
   //just need the percentage
@@ -246,8 +244,7 @@ function moveCards(directon, percentage){
       card.style.opacity="1";
       card.style.transform="translate3d(0px, 0px, " + z +"px)";
 
-    }else if (5 <= p && 6 > p) { // speed * 1.5 for the first card
-      // console.log("1.25X: \n"+"i= "+i +";    " + "dz= " + dz );
+    }else if (5 <= p && 6 > p) { // 5-6
 
       scaleX = scaleY = (p-5)*0.2 + 1;
       // scaleZ += dz*0.5/50;
@@ -264,20 +261,20 @@ function moveCards(directon, percentage){
       card.style.opacity=opacity;
       card.style.transform="translate3d(0px, "+ y +"px, " + z +"px) "+
                            "scale3d(" + scaleX +", "+scaleY+", "+scaleZ +")";
-    }else {
+    }else {// p is between 6 - 7
       z = Math.round((p-6)*100 + 250);
       card.style.opacity=0;
       card.style.transform="translate3d(0px, "+ y +"px, " + z +"px) "+
                            "scale3d(" + scaleX +", "+scaleY+", "+scaleZ +")";
       // console.log("BEFORE TRANSFORM: "+ transformValue);
     }
-    if(350 <= z){// resert the card to start point when reach end
-      console.log("resert to back");
-      // z =Math.round((p*100)-600);
-      // card.style.transform="translate3d(0px, 0px, " + z +"px)";
-      // card.style.opacity="1";
-       document.querySelector(".center").insertBefore(card,cards[0]);
-    }
+    // if(349 <= z){// resert the card to start point when reach end
+    //   console.log("resert to back");
+    //   // z =Math.round((p*100)-600);
+    //   // card.style.transform="translate3d(0px, 0px, " + z +"px)";
+    //   // card.style.opacity="1";
+    //   //  document.querySelector(".center").insertBefore(card,cards[0]);
+    // }
     if(i===0){
       // console.log(card.style.transform);
     }
