@@ -3,7 +3,7 @@ document.addEventListener("keydown", handleKeydown);
 document.addEventListener("keyup", handleKeyup);
 
 function handleKeydown(e){
-  console.log("hearing keydown event from body");
+  // console.log("hearing keydown event from body");
   switch (e.keyCode) {
     case 13:
       console.log("enter");
@@ -24,6 +24,7 @@ function handleKeydown(e){
     case 38:
       console.log("arrowUp");
       // move forward
+      document.querySelector('.collections.center').handleMove;
       break;
 
     default:
@@ -85,8 +86,8 @@ function getPercentage(interval){
   var percentage;
   if(interval<Atime){
         // p=1/2 * a* t * t
-    var a = Vmax / Atime;
-    percentage = Math.pow(interval, 2) * a / 2 ;
+    var a = (Vmax / Atime);
+    percentage = Math.pow(interval, 2) * (a / 2) ;
   }else{
         //linear after
     percentage = interval*Vmax - (Atime * Vmax / 2);
@@ -96,7 +97,8 @@ function getPercentage(interval){
 
 var ImsvUI = React.createClass({
   render : function(){
-    return(
+    return (
+
       <div className="imsvUI">
         <Status />
         <Explorer />
@@ -186,11 +188,46 @@ var CardCollections = React.createClass({
     };
   },
   handleMove: function(direction, percentage){
+    console.log("handleMove trigged");
     percentage = percentage * "forward"==direction? 1 : -1;
     var newOrders=[], newStyles=[];
     for(var i=0; i<7; i++){
       var order=(this.children[i].props.order + percentage)%7;
-      var newStyle="";
+      var newStyle={};
+      var z,y,scaleX,scaleY,opacity;
+      //logic for new style
+      if(order<4){
+        //linear translateZ -600 ~ -200
+        z = Math.round(order*100 - 600);
+        style.opacity=1;
+        style.transform="translate3d(0px, 0px, " + z +"px)";
+      }else if (order<5) {
+        //linear translateZ -200 ~ 100
+        z = Math.round(order*300 - 1400);
+        style.opacity=1;
+        style.transform="translate3d(0px, 0px, " + z +"px)";
+      }else if (order<6) {
+        //scale3d + translateZ + opacity
+        scaleX = scaleY = (order-5)*0.2 + 1;
+        // scaleZ += dz*0.5/50;
+        z=Math.round((order-5)*150 + 100);
+        y=Math.round((order-5)*260);
+        // opacity
+
+        opacity=1-((order-5)*1.5);
+        // if(opacity <= 0){
+        //   console.log("z position: "+ z);
+        // }
+        // set style
+        style.opacity=opacity;
+        style.transform="translate3d(0px, "+ y +"px, " + z +"px) "+
+                             "scale3d(" + scaleX +", "+scaleY+", "+scaleZ +")";
+      }else {
+        z = Math.round((order-6)*100 + 250);
+        style.opacity=0;
+        style.transform="translate3d(0px, "+ y +"px, " + z +"px) "+
+                             "scale3d(" + scaleX +", "+scaleY+", "+scaleZ +")";
+      }
 
       newOrders.push(order);
     }
