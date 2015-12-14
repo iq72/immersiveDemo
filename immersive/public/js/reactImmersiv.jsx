@@ -1,6 +1,6 @@
 console.log("REACT LOADED");
-document.addEventListener("keydown", handleKeydown);
-document.addEventListener("keyup", handleKeyup);
+// document.addEventListener("keydown", handleKeydown);
+// document.addEventListener("keyup", handleKeyup);
 
 function handleKeydown(e){
   // console.log("hearing keydown event from body");
@@ -24,7 +24,7 @@ function handleKeydown(e){
     case 38:
       console.log("arrowUp");
       // move forward
-      document.querySelector('.collections.center').handleMove;
+
       break;
 
     default:
@@ -98,11 +98,10 @@ function getPercentage(interval){
 var ImsvUI = React.createClass({
   render : function(){
     return (
-
       <div className="imsvUI">
-        <Status />
-        <Explorer />
-        <Inspector />
+        <Status></Status>
+        <Explorer></Explorer>
+        <Inspector></Inspector>
       </div>
     );
   }
@@ -152,6 +151,26 @@ var Catergory = React.createClass({
 });
 
 var Explorer = React.createClass({
+  handleKeyup: function(e){
+    console.log("KEYUP hacked \n " + e.keyCode);
+  },
+  handleKeydown: function(e){
+    console.log("KEYdown hacked \n " + e.keyCode);
+  },
+  componentDidMount() {
+    document.addEventListener("keydown", this.handleKeydown);
+    document.addEventListener("keyup", this.handleKeyup)
+  },
+  componentWillUnmount() {
+    document.removeEventListener("keydown", this.handleKeydown);
+    document.removeEventListener("keyup", this.handleKeyup)
+  },
+  getInitialState: function(){
+    return {
+      scrollVertical:0,
+      scrollHorizontal:0,
+    };
+  },
   render: function(){
     var catergories = [];
     for(var i=0;i<8;i++){
