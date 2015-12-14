@@ -1,9 +1,97 @@
 console.log("REACT LOADED");
+document.addEventListener("keydown", handleKeydown);
+document.addEventListener("keyup", handleKeyup);
 
-if(videoJSON){
-  console.log("We can use videoJSON in react");
-}else{
-  console.log("ERROR: something wrong with the JSON data");
+function handleKeydown(e){
+  console.log("hearing keydown event from body");
+  switch (e.keyCode) {
+    case 13:
+      console.log("enter");
+      // fullscreen
+      break;
+    case 40:
+      console.log("arrowDown");
+      // move backward
+      break;
+    case 37:
+      console.log("arrowLeft");
+      // rotate right
+      break;
+    case 39:
+      console.log("arrowRight");
+      // rotate left
+      break;
+    case 38:
+      console.log("arrowUp");
+      // move forward
+      break;
+
+    default:
+      break;
+  }
+}
+
+function handleKeyup(e){
+  console.log("hearing Keyup event from body");
+  switch (e.keyCode) {
+    case 13:
+      console.log("enter");
+      // fullscreen
+      break;
+    case 40:
+      console.log("arrowDown");
+      // move backward
+      break;
+    case 37:
+      console.log("arrowLeft");
+      // rotate right
+      break;
+    case 39:
+      console.log("arrowRight");
+      // rotate left
+      break;
+    case 38:
+      console.log("arrowUp");
+      // move forward
+      break;
+
+    default:
+      break;
+  }
+}
+
+var lastEvent,
+    requestID,
+    loopStoped=true,
+    velocity=0,
+    startTime=0,
+    lastTime=0,
+    interval=0,
+    Vmax= 0.005, // Max speed of card moving
+    Atime= 500,  // Accelerating time
+    rotate=0,
+    Zpositions=[
+      -600,
+      -500,
+      -400,
+      -300,
+      -200,
+      100,
+      250,
+      350
+    ];
+
+function getPercentage(interval){
+  var percentage;
+  if(interval<Atime){
+        // p=1/2 * a* t * t
+    var a = Vmax / Atime;
+    percentage = Math.pow(interval, 2) * a / 2 ;
+  }else{
+        //linear after
+    percentage = interval*Vmax - (Atime * Vmax / 2);
+  }
+      return percentage;
 }
 
 var ImsvUI = React.createClass({
@@ -91,6 +179,22 @@ var Explorer = React.createClass({
 var CardCollections = React.createClass({
   catergory:"",
   className:"",
+  getInitialState:function(){
+    return{
+      orders:[0,1,2,3,4,5,6,7],
+      styles:[{},{},{},{},{},{},{}]
+    };
+  },
+  handleMove: function(direction, percentage){
+    percentage = percentage * "forward"==direction? 1 : -1;
+    var newOrders=[], newStyles=[];
+    for(var i=0; i<7; i++){
+      var order=(this.children[i].props.order + percentage)%7;
+      var newStyle="";
+
+      newOrders.push(order);
+    }
+  },
   render:function(){
     var collections=[];
     for (var i=0; i<7; i++) {
@@ -100,11 +204,11 @@ var CardCollections = React.createClass({
         var poster=videoJSON[i].Poster;
         if("video"==this.props.catergory){
           collections.push(
-            <VideoCard layer={layer} key={key} src={src} poster={poster}/>
+            <VideoCard layer={layer} key={key} src={src} poster={poster} order={this.state.orders[i]} style={this.state.styles[i]}/>
           );
         }else{
           collections.push(
-            <Card layer={layer} key={key}/>
+            <Card layer={layer} key={key} />
           );
         }
     }
@@ -116,12 +220,12 @@ var CardCollections = React.createClass({
   }
 });
 
+
 var Card = React.createClass({
   layer:"",
   render:function(){
     return(
-      <div className={this.props.layer}>
-        I am a card.
+      <div className={this.props.layer} >
       </div>
     );
   }
@@ -130,7 +234,7 @@ var Card = React.createClass({
 var VideoCard = React.createClass({
   render:function(){
     return(
-      <div className={this.props.layer}>
+      <div className={this.props.layer} style={this.props.style}>
         <img src={this.props.poster} alt="#" />
       </div>
     );
