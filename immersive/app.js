@@ -48,7 +48,7 @@ app.use(function(req, res, next) {
 });
 
 app.get('/', function(req, res) {
-  res.render('index', { currentTime: new Date() });
+  res.render('index', { currentTime: new Date() , name: 'John'});
 });
 
 // 可以将一类的路由单独保存在一个文件中
