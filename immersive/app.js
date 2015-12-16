@@ -1,18 +1,22 @@
 'use strict';
 var domain = require('domain');
 var express = require('express');
+var reactViews = require('express-react-views');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var todos = require('./routes/todos');
 var cloud = require('./cloud');
 var immersive =  require('./routes/immersive');
+var imsv = require('./routes/imsv')
+
 
 var app = express();
 
 // 设置 view 引擎
 app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'ejs');
+app.set('view engine', 'jsx');
+app.engine('jsx', reactViews.createEngine());
 app.use(express.static('public'));
 
 // 加载云代码方法
@@ -48,8 +52,9 @@ app.get('/', function(req, res) {
 });
 
 // 可以将一类的路由单独保存在一个文件中
-app.use('/todos', todos);
-app.use('/immersive', immersive);
+// app.use('/todos', todos);
+// app.use('/immersive', immersive);
+app.use('/imsv', imsv);
 
 // 如果任何路由都没匹配到，则认为 404
 // 生成一个异常让后面的 err handler 捕获
