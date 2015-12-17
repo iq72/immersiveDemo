@@ -45,6 +45,7 @@ function getPercentage(interval){
 
 var ImsvUI = React.createClass({
   collectionsCount:8,
+  cardsCount:7,
   focusPostition: 1,
   //hack keydown events
   componentDidMount() {
@@ -137,8 +138,9 @@ var ImsvUI = React.createClass({
           <div className="imsvUI">
 
               <Status></Status>
-                <Explorer collectionsCount={this.collectionsCount} cardsCount={7} scrollHorizontal={this.state.scrollHorizontal} rotate={rotate} focusPostition={this.focusPostition+this.state.scrollHorizontal}  ref={ref => this.explorer = ref} videos={this.props.videos}></Explorer>
-              <Inspector></Inspector>
+              <Explorer collectionsCount={this.collectionsCount} cardsCount={7} videos={this.props.videos}
+              scrollHorizontal={this.state.scrollHorizontal} rotate={rotate} focusPostition={this.focusPostition+this.state.scrollHorizontal}  ref={ref => this.explorer = ref}></Explorer>
+              <Inspector video={this.props.videos[1]}></Inspector>
           </div>
         </body>
       </html>

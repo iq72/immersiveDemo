@@ -4,9 +4,9 @@ var Inspector = React.createClass({
   render: function(){
     return(
       <footer>
-        <InfoLeft />
-        <InfoRight />
-        <Title />
+        <InfoLeft content={this.props.video.get('Discriptions')}/>
+        <InfoRight video={this.props.video}/>
+        <Title content={this.props.video.get('Title')} />
       </footer>
     );
   }
@@ -15,7 +15,7 @@ var Inspector = React.createClass({
 var Title = React.createClass({
   render : function(){
     return(
-      <h1 className="titles-item">This is a video</h1>
+      <h1 className="titles-item">{this.props.content}</h1>
     );
   }
 });
@@ -24,7 +24,7 @@ var InfoLeft = React.createClass({
   render: function(){
     return(
       <div className="info-left">
-      <p>Discriptions of the Card show on the "left".</p>
+        <p>{this.props.content}</p>
       </div>
     );
   }
@@ -34,8 +34,8 @@ var InfoRight = React.createClass({
   render: function(){
     return(
       <div className="info-right">
-        <Rate />
-        <Staff />
+        <Rate content={this.props.video.get('Rate')}/>
+        <Staff content={this.props.video.get('Staff')}/>
       </div>
     );
   }
@@ -44,7 +44,7 @@ var InfoRight = React.createClass({
 var Rate = React.createClass({
   render:function(){
     return(
-      <p>rate</p>
+      <p>{this.props.content}</p>
     );
   }
 });
@@ -52,7 +52,7 @@ var Rate = React.createClass({
 var Staff = React.createClass({
   render : function(){
     return(
-      <p>staff</p>
+      <p>{this.props.content}</p>
     );
   }
 });

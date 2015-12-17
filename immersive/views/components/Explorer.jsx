@@ -11,13 +11,18 @@ var Explorer = React.createClass({
     //TODO move cards vertically
   },
   render: function(){
+    if(this.props.videos[0].get('Title')){
+      console.log("We got Videos");
+    }else {
+      console.log("No Videos");
+    }
     var catergories = [];
     for(var i=0;i<8;i++){
       var className = "collections";
       if(this.props.focusPostition===i){
         className += " center";
         catergories.push(
-          <CardCollections catergory="video" className={className} key={i}  ref={(ref) => this.center = ref}/>
+          <CardCollections catergory="video" videos={this.props.videos} className={className} key={i}  ref={(ref) => this.center = ref}/>
         );
       }else {
         catergories.push(
@@ -36,8 +41,6 @@ var Explorer = React.createClass({
 });
 
 var CardCollections = React.createClass({
-  catergory:"",
-  className:"",
   // handleMove: function(direction, percentage){
   //   console.log("handleMove trigged");
   //   percentage = percentage * "forward"==direction? 1 : -1;
@@ -89,14 +92,16 @@ var CardCollections = React.createClass({
     };
   },
   render:function(){
+  
     var collections=[];
+
     for (var i=0; i<7; i++) {
         var j=(i+this.state.scrollVertical+7)%7; // scroll pointer
         var layer = "card layer-"+j;
         var key="layer-"+j;
-        var src=this.props.videos[i].SRC;
-        var poster=this.props.videos[i].Poster;
         if("video"==this.props.catergory){
+          var src=this.props.videos[i].get('SRC');
+          var poster=this.props.videos[i].get('Poster');
           collections.push(
             <VideoCard layer={layer} key={key} src={src} poster={poster}/>
           );
