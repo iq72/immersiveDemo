@@ -5,5 +5,5 @@ start.sh
 *~
 *.swp
 .avoscloud/
-.avoscloud/
+.leancloud/
 public/videos/
