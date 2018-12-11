@@ -1,7 +1,8 @@
 /*background*/
 body {
-  background-image: url("../img/bg/8877-universe-1280x800-space-wallpaper.jpg");
-  background-repeat: repeat-x;
+  /* background-image: url("../img/bg/8877-universe-1280x800-space-wallpaper.jpg");
+  background-repeat: repeat-x; */
+  background-color:#333;
   background-size: 1920px 720px;
   /*background-position: 50% 0%;*/
   color: white;
